@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Command Injection</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <link rel="icon" href="static/scripting.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container mt-5">
+        <form action="/execute" method="post">
+            <label for="command">Введите команду:</label><br>
+            <input type="text" id="command" name="command"><br>
+            <input type="submit" value="Go"></p>
+        </form>
+        {% if result %}
+        <div class="alert alert-info">{{ result }}</div>
+        {% elif error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <p></p>
+        <a href="/dashboard" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>

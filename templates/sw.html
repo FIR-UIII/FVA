@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Service Worker XSS</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <link rel="icon" href="static/scripting.png" type="image/x-icon">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <form action="/api/data" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+      </form>
+      <p></p>
+      <a href="/dashboard" class="btn btn-secondary">Назад</a></p>
+    </div>
+    <script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/static/sw.js').then(function(registration) {
+          console.log('Service Worker registered:', registration.scope);
+        }).catch(function(error) {
+          console.error('Service Worker registration failed:', error);
+        });
+      }
+    </script>
+  </body>
+</html>

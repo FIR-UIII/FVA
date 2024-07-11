@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link rel="icon" href="/static/scripting.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container mt-5">
+        <form action="/change_password" method="post" id="changePasswordForm">
+            <label for="id">Введите id пользователя:</label><br>
+            <input type="text" id="id" name="id"><br>
+            <label for="command">Введите новый пароль:</label><br>
+            <input type="text" id="new_password" name="new_password"><br>
+            <input type="submit" value="Изменить пароль"></p>
+        </form>
+        <p></p>
+        <a href="/dashboard" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>
