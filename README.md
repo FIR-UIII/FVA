@@ -4,6 +4,7 @@ FVA Flask Vulnerable Application was developed for the purpose of learning.
 # TODO:
 * сделать заглушки в случае невалидных логина или пароля или необходиомсти аутентификации
 * csrf добавить подключение к БД psql
+* перенести в env основные конфигурационные настройки
 
 # Vulnerabilities 
 ### XSS + Iframe injection

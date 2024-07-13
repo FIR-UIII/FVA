@@ -32,7 +32,6 @@ cors = CORS(FVA, resources={
 })
 
 
-
 FVA.register_blueprint(xss_bp)
 FVA.register_blueprint(path_travers_bp)
 FVA.register_blueprint(ssti_bp)
@@ -43,6 +42,13 @@ FVA.register_blueprint(ssrf_bp)
 
 @FVA.route('/', methods=['GET', 'POST'])
 def index():
+    '''
+    The root route of the application.
+    Parameters:
+    If a user is already logged in, they are redirected to the dashboard.
+    If the credentials are valid, a cookie is added to the response and the user is redirected to the dashboard.
+    If the credentials are invalid, an error message is returned.
+    '''
     if request.cookies.get('user_id'):
         return redirect("/dashboard")
     elif request.method == 'POST':
@@ -76,19 +82,33 @@ def index():
 @FVA.route('/dashboard')
 @require_authentication
 def dashboard():
+    '''
+    Function used to render the 'home.html' template after successful authentication.
+    '''
     return render_template('home.html')
 
 
 @FVA.route('/logout')
 def logout():
-    # Удаляем куку из сессии и перенаправляем на главную страницу
+    """
+    Function used to remove the user session cookie and redirect the user to the home page.
+    Returns:
+    - Response: A response object that redirects the user to the home page and removes the 'user_id' cookie.
+    """
     resp = make_response(redirect("/"))
     resp.delete_cookie('user_id')
     return resp
 
 @FVA.route('/api/data', methods=['POST'])
 def handle_data():
-    '''Функция используется для загрузки файлов в директорию /static'''
+    '''
+    Function used to upload files to the static directory.
+    Parameters:
+    - file (FileStorage): The file to be uploaded.
+    Returns:
+    - Response: Redirects to the '/upload' route if the file is successfully uploaded.
+    - json: Returns a JSON object with an 'error' key and the value 'Invalid file' if the file is invalid.
+    '''
     file = request.files['file']
     if file:
         filename = file.filename
@@ -99,6 +119,8 @@ def handle_data():
     
 @FVA.route('/api/users', methods=['GET'])
 def get_users():
+    '''handles a GET request to the '/api/users' endpoint. exposes sensitive information
+    without authorization'''
     return 'user password is qwerty'
 
 

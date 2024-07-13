@@ -17,7 +17,7 @@ passwords = [
 ]
 
 def password_changer(id, new_password):
-    '''Функция меняет пароль на получаемый новый пароль для пользователя по полученному id'''
+    '''Function that changes the password for a user based on the provided ID'''
     if id == 1:  # Assuming the admin password is the first one in the list
         passwords[0]['password'] = new_password
         return f"Password for user '{passwords[id-1]['username']}' has been successfully changed to '{new_password}'. + {passwords}"
