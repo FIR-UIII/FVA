@@ -1,17 +1,15 @@
+# Description:
+FVA Flask Vulnerable Application was developed for the purpose of learning. 
+
 # TODO:
 * сделать заглушки в случае невалидных логина или пароля или необходиомсти аутентификации
 * csrf добавить подключение к БД psql
 
-https://flask.palletsprojects.com/en/1.1.x/security/
-https://habr.com/ru/articles/804863/ 
-https://github.com/guiadeappsec/vuln-flask-web-app/blob/main/app.py
-
-# XSS + Iframe injection
-exploit 
-
+# Vulnerabilities 
+### XSS + Iframe injection
+```html
 http://localhost:8888/xss?param=<script>alert(1)</script>
 
-```html
 <img src=https://stackoverflow.com/ onerror=alert(1)>
 
 <script>alert(document.domain)</script>
