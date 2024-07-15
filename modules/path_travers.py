@@ -8,8 +8,7 @@ path_travers_bp = Blueprint("path_travers", __name__)
 
 def path_traversal_image(file_path):
     try:
-        # vuln here => unsafe func root_folder() and get user {file_path} input without validation
-        image_path = f"{root_folder()}{file_path}"
+        image_path = f"{root_folder()}{file_path}" # --> dangerous command root_folder() and get user {file_path} input without validation
         return send_file(image_path)
     except FileNotFoundError:
         return "File not found", 404
@@ -25,8 +24,3 @@ def path_travers():
 def path_travers_img():
     query_param = request.args.get('img')
     return path_traversal_image(query_param)
-
-# http://localhost:8888/path-travers-img/?img=/static/scripting.png
-# exploit
-# http://localhost:8888/path_travers_img/?img=/secret.txt
-# http://localhost:8888/path_travers_img/?img=/../venv.txt

@@ -32,18 +32,18 @@ def csrf():
     return render_template('csrf.html')
 
 
-@csrf_bp.route('/change_password', methods=['POST', 'GET']) #<-- используется метод GET для критичного действия
+@csrf_bp.route('/change_password', methods=['POST', 'GET']) #<-- critical actions mist be exucuted via POST request
 # TODO: добавить защиту https://testdriven.io/blog/csrf-flask/
 # TODO: ошибки при загрузке статики /static/scripting.png и /static/bootstrap.min.css
 @require_authentication
 def change_password():
     if request.method == 'POST':
         id = int(request.form.get('id'))
-        new_password = str(request.form.get('new_password'))
+        new_password = str(request.form.get('new_password')) #<-- no info from fronend that this is user actions
         print(passwords)
         return password_changer(id, new_password)
     
-    if request.method == 'GET':
+    if request.method == 'GET': #<-- critical actions mist be exucuted via POST request
         id = int(request.args.get('id'))
-        new_password = str(request.args.get('new_password'))
+        new_password = str(request.args.get('new_password')) #<-- no info from fronend that this is user actions
         return password_changer(id, new_password)

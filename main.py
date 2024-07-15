@@ -122,7 +122,7 @@ def handle_data():
     file = request.files['file']
     if file:
         filename = file.filename
-        file.save(os.path.join(FVA.static_folder, filename))
+        file.save(os.path.join(FVA.static_folder, filename)) #<-- user input without proper validation
         return redirect("/upload")
     else:
         return jsonify({'error': 'Invalid file'})
