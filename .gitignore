@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*$pyc.class
 
 # C extensions
 *.so
@@ -63,6 +64,8 @@ cover/
 # Flask stuff:
 instance/
 .webassets-cache
+modules/__pycache__
+*.pyc
 
 # Scrapy stuff:
 .scrapy

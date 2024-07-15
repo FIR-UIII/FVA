@@ -1,5 +1,9 @@
-from flask import Flask, render_template, jsonify, request, redirect, session, make_response
+from flask import Flask, render_template, jsonify, request, redirect, make_response
 import os
+import psycopg2 as psql
+import base64
+from modules.require_authentication import require_authentication
+from flask_cors import CORS
 from modules.xss import xss_bp
 from modules.path_travers import path_travers_bp
 from modules.ssti import ssti_bp
@@ -7,10 +11,6 @@ from modules.upload import upload_bp
 from modules.command_injection import command_injection_bp
 from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
-import psycopg2 as psql
-import base64
-from modules.require_authentication import require_authentication
-from flask_cors import CORS
 
 
 DB_HOST = "localhost"
