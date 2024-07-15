@@ -22,9 +22,19 @@ DB_PASS = ""
 FVA = Flask(__name__)
 FVA.secret_key = 'some_secret_key'
 app = Flask(__name__)
+
+###### CSP headers #######
+@FVA.after_request
+def add_security_headers(resp):
+    resp.headers['Content-Security-Policy'] = "default-src 'self';" \
+                                               "style-src 'self';"
+    return resp
+
+###### CORS headers #######
+
 cors = CORS(FVA, resources={
     r"/*": {
-        "origins": "http://localhost:80", # разрешает доступ для нашего сайта 
+        "origins": "http://localhost:8000", # разрешает доступ для нашего сайта 
         "methods": ["GET", "POST"],
         "headers": ["Content-Type", "Authorization"],
         "credentials": False
