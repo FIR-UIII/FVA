@@ -64,7 +64,7 @@ cover/
 # Flask stuff:
 instance/
 .webassets-cache
-modules/__pycache__
+modules/__pycache__/
 *.pyc
 
 # Scrapy stuff:

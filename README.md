@@ -1,5 +1,5 @@
 # Description:
-FVA Flask Vulnerable Application was developed for the purpose of learning. 
+FVA Flask Vulnerable Application was developed for the purpose of learning 
 
 # Installation
 ##### Clone and install the application
@@ -20,7 +20,7 @@ Please see the documentation: https://www.postgresql.org/docs/current/tutorial-i
 
 # Vulnerabilities 
 ## XSS
-Exploits:
+Exploit/PoC:
 ```html
 1. GET injection: http://{URL}/xss?param=<script>alert(1)</script>
 2. HTML img injection: <img src=https://stackoverflow.com/ onerror=alert(1)>
@@ -54,11 +54,28 @@ window.addEventListener('load', function() {
 ```
 
 Vulnerable code:
-```modules/xss.py
+```
+# modules/xss.py
 user_input = request.args.get('param') #<-- точка ввода через query параметры xss reflected + SSTI  
 return render_template('xss.html', user_input=user_input) #<-- небезопасный вывод пользователю данных без санитизации
 data = request.form['user_input'] #<-- точка пользовательского ввода без валидации xss stored
 ```
+
+## Authentication bypass
+Exploit/PoC:
+```
+1. Go to root page "/" (logout from the current session if nessesary)
+2. Open DevTools / Application / Cookies:
+3. Create new with name:'user_id', value:'any_value'
+4. Refresh page and profit
+```
+
+Vulnerable code:
+```
+# modules/require_authentication.py
+cookie = request.cookies.get('user_id') #<--значение cookie не проверяется
+```
+
 
 # PATH TRAVERSAL
 открыть код и найти каким образом идет обращение к картинке
