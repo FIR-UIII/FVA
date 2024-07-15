@@ -1,6 +1,18 @@
 # Description:
 FVA Flask Vulnerable Application was developed for the purpose of learning. 
 
+# Installation
+##### Clone and install the application
+```BASH
+git clone https://github.com/FIR-UIII/FVA.git
+cd FVA
+python3 -m venv {name}
+source bin/activate
+pip install -r requirements.txt
+```
+##### Install PostgreSQL
+Please see the documentation: https://www.postgresql.org/docs/current/tutorial-install.html
+
 # TODO:
 * сделать заглушки в случае невалидных логина или пароля или необходиомсти аутентификации
 * csrf добавить подключение к БД psql
