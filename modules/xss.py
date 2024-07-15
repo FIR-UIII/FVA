@@ -16,5 +16,3 @@ def xss():
     else:
         return render_template('xss.html')
 
-
-#TODO: CSP, CORS, X-Headers
