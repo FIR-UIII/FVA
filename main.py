@@ -34,7 +34,7 @@ def add_security_headers(resp):
 
 cors = CORS(FVA, resources={
     r"/*": {
-        "origins": "http://localhost:8000", # разрешает доступ для нашего сайта 
+        "origins": "*", # allow any origin to request resources from site
         "methods": ["GET", "POST"],
         "headers": ["Content-Type", "Authorization"],
         "credentials": False
@@ -69,8 +69,7 @@ def index():
         conn = psql.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         cursor = conn.cursor()
 
-        # Raw SQL query to check the credentials
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'" #<-- vulnerable to SQL injection
         cursor.execute(query)
         result = cursor.fetchone()
         print(result)
@@ -79,7 +78,7 @@ def index():
             # Add a cookie after successful authentication cookie == username
             resp = make_response(redirect("/dashboard"))
             # Кодируем куку в base64 и добавляем в сессию пользователя после аутентификации
-            encoded_user_id = base64.b64encode(str(result[1]).encode()).decode()
+            encoded_user_id = base64.b64encode(str(result[1]).encode()).decode() # --> weak cookie protection
             resp.set_cookie('user_id', encoded_user_id)
             return resp
         else:

@@ -9,15 +9,15 @@ ssrf_bp = Blueprint("SSRF", __name__)
 @require_authentication
 def ssrf():
     if request.method == 'GET':
-        url = request.args.get('url')
+        url = request.args.get('url') #<--user input without proper validation
     elif request.method == 'POST':
-        url = request.form.get('url')
+        url = request.form.get('url') #<--user input without proper validation
 
     if not url:
         return 'В запросе нет URL'
 
     try:
-        response = requests.get(url)
+        response = requests.get(url) 
         return response.text
     except:
         return 'Что-то пошло не так'

@@ -11,10 +11,10 @@ def execute():
     cookie = request.cookies.get('user_id')
     print(cookie)
     if request.method == 'POST':
-        command = request.form.get('command')
+        command = request.form.get('command') # => no user validation
         try:
-            if cookie == 'YWRtaW4=': # => уязвимость в использовании статичных секретов в коде
-                result = subprocess.check_output(command, shell=True, text=True)
+            if cookie == 'YWRtaW4=': # => hardcocded secret and weak authorization mechanism
+                result = subprocess.check_output(command, shell=True, text=True) # => command injection withoit validation and restriction 
                 # проверяем что результат не является пустым значением
                 if result:
                     return render_template('command_injection.html', result=result)

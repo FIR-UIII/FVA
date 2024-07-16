@@ -2,7 +2,7 @@
 FVA Flask Vulnerable Application was developed for the purpose of learning 
 
 # Installation
-##### Clone and install the application
+##### Install the application
 ```BASH
 git clone https://github.com/FIR-UIII/FVA.git
 cd FVA
@@ -11,7 +11,14 @@ source bin/activate
 pip install -r requirements.txt
 ```
 ##### Install PostgreSQL
-Please see the documentation: https://www.postgresql.org/docs/current/tutorial-install.html
+1. Install postgresql. [Please see the documentation:](https://www.postgresql.org/docs/current/tutorial-install.html)
+2. Load Dabase `python3 init_db.py`
+3. Check that all set correctly
+```SQL
+$ psql postgres
+=# \dt
+=# SELECT * FROM users;
+```
 
 # TODO:
 * сделать заглушки в случае невалидных логина или пароля или необходиомсти аутентификации
@@ -54,7 +61,7 @@ window.addEventListener('load', function() {
 ```
 
 Vulnerable code:
-```
+```python
 # modules/xss.py
 user_input = request.args.get('param') #<-- точка ввода через query параметры xss reflected + SSTI  
 return render_template('xss.html', user_input=user_input) #<-- небезопасный вывод пользователю данных без санитизации
@@ -71,7 +78,7 @@ Exploit/PoC:
 ```
 
 Vulnerable code:
-```
+```python
 # modules/require_authentication.py
 cookie = request.cookies.get('user_id') #<--значение cookie не проверяется
 ```
@@ -87,7 +94,7 @@ Exploit/PoC:
 /static/scripting.png
 ```
 Vulnerable code:
-```
+```python
 # modules/path_travers.py
 image_path = f"{root_folder()}{file_path}" # --> dangerous command root_folder() and get user {file_path} input without validation
 ```
@@ -102,7 +109,7 @@ Try payload:
 ```
 
 Vulnerable code:
-```
+```python
 # modules/ssti.py
 user_input = request.args.get('param', 'Введите данные в query "?param="') #<-- точка ввода через query параметры xss reflected + SSTI
 return render_template_string(template) #<-- небезопасный вывод пользователю данных без санитизации
@@ -118,7 +125,7 @@ Exploit/PoC:
 ```
 
 Vulnerable code:
-```
+```python
 # templates/upload.html
 <script>
       if (navigator.serviceWorker) {
@@ -148,7 +155,7 @@ OR
 ```
 
 Vulnerable code:
-```
+```python
 # modules/csrf.py
 @csrf_bp.route('/change_password', methods=['POST', 'GET']) #<-- critical actions mist be exucuted via POST request
 if request.method == 'GET': #<-- critical actions mist be exucuted via POST request
@@ -157,44 +164,86 @@ new_password = str(request.args.get('new_password')) #<-- no info from fronend t
 
 ## SSRF
 Exploit/PoC:
-Vulnerable code:
-GET request: 
-http://localhost:8888/ssrf?url=http://localhost:8888/xss
-
-POST request: 
+```
+Go to /ssrf with query param ?url=http://{URL}/xss
+OR
 curl -X POST -d "url=http://localhost:8888/xss" http://localhost:8888/ssrf
+```
 
-
-# SQl injection
-Exploit/PoC:
 Vulnerable code:
-brew services start postgresql
-psgl postgres
-python init_db.py from modules.init_db import create_database
-=# \dt
-=# SELECT * FROM users;
+```python
+# modules/ssrf.py
+if request.method == 'GET':
+  url = request.args.get('url') #<--user input without proper validation
+elif request.method == 'POST':
+  url = request.form.get('url') #<--user input without proper validation
+```
 
-injection 
-login: ' OR 1=1; --
-password: any
-
-# command_injection
+## SQl injection
 Exploit/PoC:
-Vulnerable code:
+```
+Got to root '/' (logout if nessesary)
+Payload to login form: `' or 1=1 --` and password `anything`
+```
 
-/go to command_injection
-change cookie to admin > base64
+Vulnerable code:
+```python
+# main.py
+query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'" #<-- vulnerable to SQL injection
+```
+
+## Command injection
+Exploit/PoC:
+```
+Go to /execute
+Try to insert command `whoami` > check the result
+If you are not admin > try to escalate privileges via cookie (see. Cookie misconfiguration)
+```
+
+Vulnerable code:
+```python
+# modules/command_injection.py
+if cookie == 'YWRtaW4=': # => уязвимость в использовании статичных секретов в коде
+result = subprocess.check_output(command, shell=True, text=True) # => command injection withoit validation and restriction 
+```
 
 ## Security misconfiguration
-#### CORS
+#### Cookie misconfiguration
 Exploit/PoC:
-Vulnerable code:
+```
+1. Go to root page "/" (logout from the current session if nessesary)
+2. Open DevTools / Application / Cookies. If you login as admin you will see: value `YWRtaW4=`. Try to decode it.
+Notice that there're no flags such as HttpOnly, SameSite, Secure. 
+Notice that cookie has predictable value and there're no cryptography or/and entropy protection.
+```
 
-python -m http.server 8000
-devtools > console:
-fetch('http://localhost:8888/api/users')
+Vulnerable code:
+```python
+# main.py
+encoded_user_id = base64.b64encode(str(result[1]).encode()).decode() # --> weak cookie protection
+```
+
+#### CORS misconfiguration
+Exploit/PoC:
+```
+Launch local webserver like: `python -m http.server 8000`
+Go to Browser DevTools > open Console > Run:
+fetch('http://{URL}/api/users')
   .then(response => response.text())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
+```
 
-  
+Vulnerable code:
+```python
+# main.py
+cors = CORS(FVA, resources={
+    r"/*": {
+        "origins": "*", # allow any origin to request resources from site
+        "methods": ["GET", "POST"],
+        "headers": ["Content-Type", "Authorization"],
+        "credentials": False
+    }
+})
+```
+
