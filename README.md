@@ -9,6 +9,7 @@ cd FVA
 python3 -m venv {name}
 source bin/activate
 pip install -r requirements.txt
+python3 main.py
 ```
 ##### Install PostgreSQL
 1. Install postgresql. [Please see the documentation:](https://www.postgresql.org/docs/current/tutorial-install.html)
@@ -245,5 +246,24 @@ cors = CORS(FVA, resources={
         "credentials": False
     }
 })
+```
+
+#### CSP misconfiguration
+Exploit/PoC:
+```
+Go to '/' 
+Open Browser DevTools > open Console > Run:
+fetch('http://{URL}/api/users')
+  .then(response => response.text())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+Vulnerable code:
+```
+# main.py
+resp.headers['Content-Security-Policy'] = "default-src *;" \
+                                               "style-src *;" \
+                                               "script-src 'unsafe-inline' 'unsafe-eval'" # allow unsafe inline, eval func allow any origin '*'
 ```
 

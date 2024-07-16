@@ -26,8 +26,9 @@ app = Flask(__name__)
 ###### CSP headers #######
 @FVA.after_request
 def add_security_headers(resp):
-    resp.headers['Content-Security-Policy'] = "default-src 'self';" \
-                                               "style-src 'self';"
+    resp.headers['Content-Security-Policy'] = "default-src *;" \
+                                               "style-src *;" \
+                                               "script-src 'unsafe-inline' 'unsafe-eval'" # allow unsafe inline, eval func allow any origin '*'
     return resp
 
 ###### CORS headers #######
