@@ -253,10 +253,9 @@ Exploit/PoC:
 ```
 Go to '/' 
 Open Browser DevTools > open Console > Run:
-fetch('http://{URL}/api/users')
-  .then(response => response.text())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+fetch('{PUT ANY IMAGE}')
+OR 
+Load any script
 ```
 
 Vulnerable code:
