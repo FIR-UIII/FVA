@@ -42,7 +42,7 @@ cors = CORS(FVA, resources={
     }
 })
 
-
+# 
 FVA.register_blueprint(xss_bp)
 FVA.register_blueprint(path_travers_bp)
 FVA.register_blueprint(ssti_bp)
