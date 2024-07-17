@@ -15,8 +15,8 @@ from modules.ssrf import ssrf_bp
 
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = ""
-DB_PASS = ""
+DB_USER = "test"
+DB_PASS = "test"
 
 
 FVA = Flask(__name__)
