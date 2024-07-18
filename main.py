@@ -14,7 +14,7 @@ from modules.IDOR import idor_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 
-
+test = 'Ratatatataattaaa'
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = ""
