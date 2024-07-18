@@ -10,10 +10,11 @@ from modules.upload import upload_bp
 from modules.command_injection import command_injection_bp
 from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
+from modules.IDOR import idor_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 
-
+#### ARTEM
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = ""
@@ -35,6 +36,7 @@ FVA.register_blueprint(upload_bp)
 FVA.register_blueprint(command_injection_bp)
 FVA.register_blueprint(csrf_bp)
 FVA.register_blueprint(ssrf_bp)
+FVA.register_blueprint(idor_bp)
 
 @FVA.route('/', methods=['GET', 'POST'])
 def index():
