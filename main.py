@@ -22,8 +22,6 @@ DB_PASS = ""
 
 FVA = Flask(__name__)
 FVA.secret_key = 'some_secret_key'
-app = Flask(__name__)
-
 # CSP headers
 FVA.after_request(setup_csp)
 # CORS headers
