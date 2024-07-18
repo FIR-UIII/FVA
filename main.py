@@ -92,6 +92,8 @@ def logout():
     """
     resp = make_response(redirect("/"))
     resp.delete_cookie('user_id')
+    resp.headers['Clear-Site-Data'] = '"cache", "cookies", "storage"'
+
     return resp
 
 @FVA.route('/api/data', methods=['POST'])
