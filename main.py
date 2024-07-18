@@ -3,7 +3,6 @@ import os
 import psycopg2 as psql
 import base64
 from modules.require_authentication import require_authentication
-from flask_cors import CORS
 from modules.xss import xss_bp
 from modules.path_travers import path_travers_bp
 from modules.ssti import ssti_bp
@@ -12,38 +11,24 @@ from modules.command_injection import command_injection_bp
 from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
 from modules.IDOR import idor_bp
+from security.CSP import setup_csp
+from security.CORS import setup_cors
 
 
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = "test"
-DB_PASS = "test"
+DB_USER = ""
+DB_PASS = ""
 
 
 FVA = Flask(__name__)
 FVA.secret_key = 'some_secret_key'
-app = Flask(__name__)
+# CSP headers
+FVA.after_request(setup_csp)
+# CORS headers
+setup_cors(FVA)
 
-###### CSP headers #######
-@FVA.after_request
-def add_security_headers(resp):
-    resp.headers['Content-Security-Policy'] = "default-src *;" \
-                                               "style-src *;" \
-                                               "script-src 'unsafe-inline' 'unsafe-eval'" # allow unsafe inline, eval func allow any origin '*'
-    return resp
 
-###### CORS headers #######
-
-cors = CORS(FVA, resources={
-    r"/*": {
-        "origins": "*", # allow any origin to request resources from site
-        "methods": ["GET", "POST"],
-        "headers": ["Content-Type", "Authorization"],
-        "credentials": False
-    }
-})
-
-# 
 FVA.register_blueprint(xss_bp)
 FVA.register_blueprint(path_travers_bp)
 FVA.register_blueprint(ssti_bp)
@@ -109,6 +94,8 @@ def logout():
     """
     resp = make_response(redirect("/"))
     resp.delete_cookie('user_id')
+    resp.headers['Clear-Site-Data'] = '"cache", "cookies", "storage"'
+
     return resp
 
 @FVA.route('/api/data', methods=['POST'])
