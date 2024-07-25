@@ -11,14 +11,15 @@ from modules.command_injection import command_injection_bp
 from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
 from modules.IDOR import idor_bp
+from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 
 test = 'Ratatatataattaaa'
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = ""
-DB_PASS = ""
+DB_USER = "test"
+DB_PASS = "test"
 
 
 FVA = Flask(__name__)
@@ -37,6 +38,7 @@ FVA.register_blueprint(command_injection_bp)
 FVA.register_blueprint(csrf_bp)
 FVA.register_blueprint(ssrf_bp)
 FVA.register_blueprint(idor_bp)
+FVA.register_blueprint(bola_bp)
 
 @FVA.route('/', methods=['GET', 'POST'])
 def index():
