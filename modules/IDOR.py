@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, render_template_string, request
+import psycopg2 as psql
 
 idor_bp = Blueprint("idor", __name__)
 
@@ -150,19 +151,3 @@ def idor_route_workplace2():
     return render_template_string(html_content)
 
 
-
-
-@idor_bp.route('/idor/BOLA', methods=['POST', 'GET'])
-def bola_route():
-    html_content = '''
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Simple HTML Document</title>
-    </head>
-    <body>
-        <h1>bola abola</h1>
-    </body>
-    </html>
-    '''
-    return render_template_string(html_content)
