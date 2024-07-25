@@ -15,7 +15,6 @@ from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 
-
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = ""
