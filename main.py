@@ -15,11 +15,11 @@ from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 
-test = 'Ratatatataattaaa'
+
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = "test"
-DB_PASS = "test"
+DB_USER = ""
+DB_PASS = ""
 
 
 FVA = Flask(__name__)
