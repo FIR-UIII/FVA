@@ -1,13 +1,14 @@
-from flask import Blueprint, render_template, render_template_string, request
+from flask import Blueprint, render_template, request
 import psycopg2 as psql
-from flask import Flask, jsonify
+from flask import jsonify
 bola_bp = Blueprint("bola", __name__)
 
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = "test"
-DB_PASS = "test"
+DB_USER = ""
+DB_PASS = ""
 
+# TODO: убрать функцию в модель инициирования всей БД initDB
 def initiate_database4BOLA():
             '''Добавляет таблицу users sи наполняет ее пользователями'''
             sql_db = psql.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -39,7 +40,7 @@ def database_worker(callDBName):
     return(Result)
 
 
-@bola_bp.route('/idor/BOLA', methods=['GET', 'POST'])
+@bola_bp.route('/idor/bola', methods=['GET', 'POST'])
 def render_page():
     initiate_database4BOLA()
     if request.method == 'POST':
@@ -58,12 +59,6 @@ def render_page():
     
     # For GET requests or if the POST request doesn't contain expected data
     return render_template('bola.html')
-
-
-
-### How to connect to psql via terminal
-# clone@mk4:~$ sudo -i -u postgres
-# postgres@mk4:~$ psql -U postgres
 
 
 
