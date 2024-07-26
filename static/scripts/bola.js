@@ -1,6 +1,6 @@
 function Sendding(parameterToSend){
     // Perform a POST request to the specified URL ('http://localhost:8888/idor/BOLA')
-    fetch('http://localhost:8888/idor/BOLA', {
+    fetch('http://localhost:8888/idor/bola', {
         // Specify that the request method is POST
         method: 'POST', headers: {
             'Content-Type': 'application/json'
