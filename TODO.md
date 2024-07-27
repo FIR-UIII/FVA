@@ -3,8 +3,9 @@
     docker build -t fva_postgres_db -f Dockerfile_postgres .
 
     TEST:
-    docker run -d --name fva_postgres_db -p 5432:5432 fva_postgres_db
-    docker run -d --name fva_app -p 8888:8888 --link fva_postgres_db:fva_postgres_db fva_app
+    docker create network fva_net
+    docker run -d --name fva_postgres_db -p 5432:5432 --network=fva_net fva_postgres_db
+    docker run -d --name fva_app -p 8888:8888 --network=fva_net fva_app
 
 2. Добавить правила nuclei / semgrep для поиска и анализа уязвимостей
 3. Добавить уязвимости:
