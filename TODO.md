@@ -7,6 +7,9 @@
     docker run -d --name fva_postgres_db -p 5432:5432 --network=fva_net fva_postgres_db
     docker run -d --name fva_app -p 8888:8888 --network=fva_net fva_app
 
+    VIA 
+    docker-compose up
+
 2. Добавить правила nuclei / semgrep для поиска и анализа уязвимостей
 3. Добавить уязвимости:
 -

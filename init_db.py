@@ -1,6 +1,6 @@
 import psycopg2 as psql
 
-DB_HOST = "localhost"
+DB_HOST = "db"
 DB_NAME = "postgres"
 DB_USER = "test"
 DB_PASS = "test"

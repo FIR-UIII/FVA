@@ -14,9 +14,9 @@ from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
-from init_db import initiate_database
+# from init_db import initiate_database
 
-DB_HOST = "localhost"
+DB_HOST = "db"
 DB_NAME = "postgres"
 DB_USER = "test"
 DB_PASS = "test"
@@ -56,24 +56,24 @@ def index():
         password = request.form['password']
 
         # Connect to the PostgreSQL database
-        conn = psql.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
-        cursor = conn.cursor()
+        # conn = psql.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
+        # cursor = conn.cursor()
 
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'" #<-- vulnerable to SQL injection
-        cursor.execute(query)
-        result = cursor.fetchone()
-        print(result)
+        # query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'" #<-- vulnerable to SQL injection
+        # cursor.execute(query)
+        # result = cursor.fetchone()
+        #print(result)
 
-        if result:
-            # Add a cookie after successful authentication cookie == username
-            resp = make_response(redirect("/dashboard"))
-            # Кодируем куку в base64 и добавляем в сессию пользователя после аутентификации
-            encoded_user_id = base64.b64encode(str(result[1]).encode()).decode() # --> weak cookie protection
-            resp.set_cookie('user_id', encoded_user_id)
-            return resp
-        else:
-            conn.close()
-            return "Invalid username or password"
+        # #if result:
+        #     # Add a cookie after successful authentication cookie == username
+        #     resp = make_response(redirect("/dashboard"))
+        #     # Кодируем куку в base64 и добавляем в сессию пользователя после аутентификации
+        #     encoded_user_id = base64.b64encode(str(result[1]).encode()).decode() # --> weak cookie protection
+        #     resp.set_cookie('user_id', encoded_user_id)
+        #     return resp
+        # else:
+        #     conn.close()
+        #     return "Invalid username or password"
 
     return render_template('login.html')
 
@@ -126,6 +126,6 @@ def get_users():
 
 
 if __name__ == "__main__":
-    initiate_database()
+    # initiate_database()
     # Debug mode True, no TLS => Security misconfiguration
-    FVA.run(host="localhost", port=8888, debug=True)
+    FVA.run(host="0.0.0.0", port=8888, debug=True)
