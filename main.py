@@ -14,6 +14,7 @@ from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
+from init_db import initiate_database
 
 DB_HOST = "localhost"
 DB_NAME = "postgres"
@@ -125,5 +126,6 @@ def get_users():
 
 
 if __name__ == "__main__":
+    initiate_database()
     # Debug mode True, no TLS => Security misconfiguration
     FVA.run(host="localhost", port=8888, debug=True)
