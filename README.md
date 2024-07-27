@@ -2,7 +2,13 @@
 FVA Flask Vulnerable Application was developed for the purpose of learning 
 
 # Installation
-##### Install the application
+
+### Install via Docker
+```BASH
+docker-compose up
+```
+
+### Manual installation
 ```BASH
 git clone https://github.com/FIR-UIII/FVA.git
 cd FVA
@@ -11,15 +17,14 @@ source bin/activate
 pip install -r requirements.txt
 python3 main.py
 ```
-##### Install PostgreSQL
+**Install PostgreSQL**
 1. Install postgresql. [Please see the documentation:](https://www.postgresql.org/docs/current/tutorial-install.html)
 OR run it via docker container:
 ```
 docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
 ```
 2. Load Dabase `python3 init_db.py`
-3. Login as FVA with password FVA
-```
+3. Login as `FVA` with password `FVA`
 
 # Vulnerabilities 
 ## XSS

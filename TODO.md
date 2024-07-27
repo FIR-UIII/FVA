@@ -1,15 +1,4 @@
-1. Добавить образ докер контейнера для более удобного и быстрого запуска
-    docker build -t fva_app -f Dockerfile_fva .
-    docker build -t fva_postgres_db -f Dockerfile_postgres .
-
-    TEST:
-    docker create network fva_net
-    docker run -d --name fva_postgres_db -p 5432:5432 --network=fva_net fva_postgres_db
-    docker run -d --name fva_app -p 8888:8888 --network=fva_net fva_app
-
-    VIA 
-    docker-compose up
-
+1. ~~Добавить образ докер контейнера для более удобного и быстрого запуска~~
 2. Добавить правила nuclei / semgrep для поиска и анализа уязвимостей
 3. Добавить уязвимости:
 -
