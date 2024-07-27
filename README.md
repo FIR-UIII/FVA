@@ -13,6 +13,10 @@ python3 main.py
 ```
 ##### Install PostgreSQL
 1. Install postgresql. [Please see the documentation:](https://www.postgresql.org/docs/current/tutorial-install.html)
+OR run it via docker container:
+```
+docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
+```
 2. Load Dabase `python3 init_db.py`
 3. Check that all set correctly
 ```SQL
@@ -20,11 +24,6 @@ $ psql postgres
 =# \dt
 =# SELECT * FROM users;
 ```
-
-# TODO:
-* сделать заглушки в случае невалидных логина или пароля или необходиомсти аутентификации
-* csrf добавить подключение к БД psql
-* перенести в env основные конфигурационные настройки
 
 # Vulnerabilities 
 ## XSS
