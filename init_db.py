@@ -2,8 +2,8 @@ import psycopg2 as psql
 
 DB_HOST = "localhost"
 DB_NAME = "postgres"
-DB_USER = ""
-DB_PASS = ""
+DB_USER = "test"
+DB_PASS = "test"
 
 def initiate_database():
     '''Добавляет таблицу users sи наполняет ее пользователями'''
@@ -17,7 +17,6 @@ def initiate_database():
     sql_db.commit()
     sql_command.close()
     sql_db.close()
-
 
 
 initiate_database()
