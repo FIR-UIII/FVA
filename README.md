@@ -18,11 +18,7 @@ OR run it via docker container:
 docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
 ```
 2. Load Dabase `python3 init_db.py`
-3. Check that all set correctly
-```SQL
-$ psql postgres
-=# \dt
-=# SELECT * FROM users;
+3. Login as FVA with password FVA
 ```
 
 # Vulnerabilities 

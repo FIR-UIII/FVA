@@ -3,10 +3,10 @@ import psycopg2 as psql
 from flask import jsonify
 bola_bp = Blueprint("bola", __name__)
 
-DB_HOST = "localhost"
+DB_HOST = "db"
 DB_NAME = "postgres"
-DB_USER = ""
-DB_PASS = ""
+DB_USER = "test"
+DB_PASS = "test"
 
 # TODO: убрать функцию в модель инициирования всей БД initDB
 def initiate_database4BOLA():

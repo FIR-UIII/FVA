@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, redirect, make_response
 import os
+import time
 import psycopg2 as psql
 import base64
 from modules.require_authentication import require_authentication
@@ -14,7 +15,7 @@ from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
 from security.CSP import setup_csp
 from security.CORS import setup_cors
-# from init_db import initiate_database
+from init_db import initiate_database
 
 DB_HOST = "db"
 DB_NAME = "postgres"
@@ -126,6 +127,7 @@ def get_users():
 
 
 if __name__ == "__main__":
-    # initiate_database()
+    time.sleep(15)
+    initiate_database()
     # Debug mode True, no TLS => Security misconfiguration
     FVA.run(host="0.0.0.0", port=8888, debug=True)
