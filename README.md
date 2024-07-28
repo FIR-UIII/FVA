@@ -5,6 +5,8 @@ FVA Flask Vulnerable Application was developed for the purpose of learning
 
 ### Install via Docker
 ```BASH
+git clone https://github.com/FIR-UIII/FVA.git
+cd FVA
 docker-compose up
 ```
 
