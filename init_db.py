@@ -1,5 +1,4 @@
 import psycopg2 as psql
-import time
 
 DB_HOST = "db"
 DB_NAME = "postgres"
@@ -17,7 +16,7 @@ def create_conn():
                 host="db"
             )
             print("Database connection successful")
-        except Exception as e:
+        except e:
             print(f"Failed to connect: {e}")
             time.sleep(5)
     return conn
