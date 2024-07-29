@@ -20,7 +20,13 @@ RUN pip install --no-cache-dir requests==2.32.3
 RUN pip install --no-cache-dir Flask-Cors==4.0.1
 RUN pip install --no-cache-dir Flask-Login==0.6.3
 RUN pip install --no-cache-dir flask-restx==1.3.0
+RUN pip install --no-cache-dir python-dotenv==1.0.1
 
+# Set environment variables
+ENV DB_HOST db
+ENV DB_NAME postgres
+ENV DB_USER test
+ENV DB_PASS test
 
 # Make port 8888 available to the world outside this container
 EXPOSE 8888/tcp

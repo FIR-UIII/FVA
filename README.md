@@ -19,7 +19,7 @@ python3 -m venv {name}
 source bin/activate
 pip install -r requirements.txt
 python3 main.py
-docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
+docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -v fva_postgres:/var/lib/postgresql/data -d postgres
 python3 init_db.py
 > Open web
 ```

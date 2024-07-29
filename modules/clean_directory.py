@@ -1,6 +1,6 @@
 import os
 
-def clean_static_directory():
+def clean_upload_directory():
     directory = "upload"
     files_in_directory = os.listdir(directory)
 
@@ -15,5 +15,3 @@ def clean_static_directory():
                 print(f"Deleted {file}")
             except Exception as e:
                 print(f"Failed to delete {file}: {e}")
-
-clean_static_directory()

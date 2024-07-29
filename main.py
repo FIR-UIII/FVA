@@ -14,7 +14,7 @@ from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
 from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
-from modules.clean_static_directory import clean_static_directory as clean
+from modules.clean_directory import clean_upload_directory as clean
 from security.CSP import setup_csp
 from security.CORS import setup_cors
 from init_db import initiate_database
