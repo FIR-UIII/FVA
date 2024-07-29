@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, redirect, make_response
 import os
+import time
 import psycopg2 as psql
 import base64
 from modules.require_authentication import require_authentication
@@ -12,13 +13,16 @@ from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
 from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
+from modules.clean_static_directory import clean_static_directory as clean
 from security.CSP import setup_csp
 from security.CORS import setup_cors
+from init_db import initiate_database
 
-DB_HOST = "localhost"
+
+DB_HOST = "db"
 DB_NAME = "postgres"
-DB_USER = ""
-DB_PASS = ""
+DB_USER = "test"
+DB_PASS = "test"
 
 
 FVA = Flask(__name__)
@@ -112,11 +116,11 @@ def handle_data():
     file = request.files['file']
     if file:
         filename = file.filename
-        file.save(os.path.join(FVA.static_folder, filename)) #<-- user input without proper validation
+        file.save(os.path.join('upload', filename)) #<-- user input without proper validation
         return redirect("/upload")
     else:
         return jsonify({'error': 'Invalid file'})
-    
+
 @FVA.route('/api/users', methods=['GET'])
 def get_users():
     '''handles a GET request to the '/api/users' endpoint. exposes sensitive information
@@ -125,5 +129,8 @@ def get_users():
 
 
 if __name__ == "__main__":
+    time.sleep(10) # this time is needed to wait for the full DB initialization
+    initiate_database()
+    clean()
     # Debug mode True, no TLS => Security misconfiguration
-    FVA.run(host="localhost", port=8888, debug=True)
+    FVA.run(host="0.0.0.0", port=8888, debug=True)
