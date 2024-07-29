@@ -5,7 +5,7 @@ def clean_static_directory():
     files_in_directory = os.listdir(directory)
 
     # Filter
-    files_to_delete = [file for file in files_in_directory]
+    files_to_delete = [file for file in files_in_directory if not file.startswith(".")] #<-- vulnerability allow persistance for file that start with '.'
 
     for file in files_to_delete:
         path_to_file = os.path.join(directory, file)

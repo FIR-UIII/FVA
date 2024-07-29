@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, redirect, make_response
 import os
+from dotenv import load_dotenv
 import time
 import psycopg2 as psql
 import base64
@@ -18,11 +19,11 @@ from security.CSP import setup_csp
 from security.CORS import setup_cors
 from init_db import initiate_database
 
-
-DB_HOST = "db"
-DB_NAME = "postgres"
-DB_USER = "test"
-DB_PASS = "test"
+load_dotenv()
+DB_HOST = os.getenv("DB_HOST") # db - docker; localhost - manual init
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
 
 
 FVA = Flask(__name__)
@@ -76,7 +77,7 @@ def index():
             return resp
         else:
             conn.close()
-            return "Invalid username or password"
+            return render_template("auth_error.html")
 
     return render_template('login.html')
 
@@ -99,7 +100,6 @@ def logout():
     """
     resp = make_response(redirect("/"))
     resp.delete_cookie('user_id')
-    resp.headers['Clear-Site-Data'] = '"cache", "cookies", "storage"'
 
     return resp
 
@@ -129,8 +129,9 @@ def get_users():
 
 
 if __name__ == "__main__":
-    time.sleep(10) # this time is needed to wait for the full DB initialization
-    initiate_database()
+    time.sleep(3) # this time is needed to wait for the full DB initialization
     clean()
+    load_dotenv()
+    initiate_database()
     # Debug mode True, no TLS => Security misconfiguration
     FVA.run(host="0.0.0.0", port=8888, debug=True)

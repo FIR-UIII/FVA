@@ -1,12 +1,15 @@
 from flask import Blueprint, render_template, request
 import psycopg2 as psql
+import os
 from flask import jsonify
 bola_bp = Blueprint("bola", __name__)
 
-DB_HOST = "db"
-DB_NAME = "postgres"
-DB_USER = "test"
-DB_PASS = "test"
+
+DB_HOST = os.getenv("DB_HOST") # db - docker; localhost - manual init
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
+
 
 # TODO: убрать функцию в модель инициирования всей БД initDB
 def initiate_database4BOLA():
@@ -40,25 +43,25 @@ def database_worker(callDBName):
     return(Result)
 
 
-# @bola_bp.route('/idor/bola', methods=['GET', 'POST'])
-# def render_page():
-#     initiate_database4BOLA()
-#     if request.method == 'POST':
-#         # Expecting JSON data with a 'param' field
-#         data = request.get_json()
-#         parameter_received = data.get('param', None)
-#         resultParam = str(database_worker(parameter_received[0]))
-#         if parameter_received[0] == "bola2":
-#             successMassage = "____congratulations! U find 2 vulnerabilities. IDOR: bola1/bola2 - names if DB. You have to change this variable for new GUID. BOLA: user 1 cannt see bola2. This show incorrect authorization !!!! +\_/+" 
-#             resultParam = (str(database_worker((parameter_received[0]))) + successMassage)
-#         else:
-#             resultParam = str(database_worker(parameter_received[0]))
-#         # Process the received parameter as needed
-#         # For demonstration, logging it and returning a success message
-#         return jsonify({'status': 'success', 'message': resultParam})
+@bola_bp.route('/idor/bola', methods=['GET', 'POST'])
+def render_page():
+    initiate_database4BOLA()
+    if request.method == 'POST':
+        # Expecting JSON data with a 'param' field
+        data = request.get_json()
+        parameter_received = data.get('param', None)
+        resultParam = str(database_worker(parameter_received[0]))
+        if parameter_received[0] == "bola2":
+            successMassage = "congratulations! U find 2 vulnerabilities. IDOR: bola1/bola2 - names if DB. You have to change this variable for new GUID. BOLA: user 1 cannt see bola2. This show incorrect authorization" 
+            resultParam = (str(database_worker((parameter_received[0]))) + successMassage)
+        else:
+            resultParam = str(database_worker(parameter_received[0]))
+        # Process the received parameter as needed
+        # For demonstration, logging it and returning a success message
+        return jsonify({'status': 'success', 'message': resultParam})
     
-#     # For GET requests or if the POST request doesn't contain expected data
-#     return render_template('bola.html')
+    # For GET requests or if the POST request doesn't contain expected data
+    return render_template('bola.html')
 
 
 

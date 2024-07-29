@@ -8,6 +8,7 @@ FVA Flask Vulnerable Application was developed for the purpose of learning
 git clone https://github.com/FIR-UIII/FVA.git
 cd FVA
 docker-compose up
+> Open web
 ```
 
 ### Manual installation
@@ -21,7 +22,6 @@ python3 main.py
 docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
 python3 init_db.py
 > Open web
-> Login as `FVA` with password `FVA`
 ```
 
 # Vulnerabilities 
