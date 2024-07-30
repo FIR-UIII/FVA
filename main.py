@@ -122,7 +122,7 @@ def handle_data():
 
 @FVA.route('/robots.txt', methods=['GET'])
 def get_users():
-    '''handles a GET request. exposes sensitive information'''
+    '''handles a GET request. exposes sensitive information without authentication'''
     return send_file('robots.txt', as_attachment=False)
 
 
