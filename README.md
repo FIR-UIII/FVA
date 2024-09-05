@@ -13,18 +13,20 @@ docker-compose up
 
 ### Manual installation
 ```BASH
+docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -v fva_postgres:/var/lib/postgresql/data -d postgres
 git clone https://github.com/FIR-UIII/FVA.git
 cd FVA
 python3 -m venv {name}
 source bin/activate
 pip install -r requirements.txt
 python3 main.py
-docker run --rm --name psql -e POSTGRES_DB=postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 -v fva_postgres:/var/lib/postgresql/data -d postgres 
-python3 init_db.py
 > Open web
 ```
 
 # Vulnerabilities 
+brief description for some of the vulnerabilities (but not all of them)
+Semgrep scan is: SemgrepSAST.txt
+
 ## XSS
 Exploit/PoC:
 ```html
@@ -234,7 +236,7 @@ fetch('http://{URL}/api/users')
 
 Vulnerable code:
 ```python
-# main.py
+# security/CORS.py
 cors = CORS(FVA, resources={
     r"/*": {
         "origins": "*", # allow any origin to request resources from site
@@ -256,8 +258,8 @@ Load any script
 ```
 
 Vulnerable code:
-```
-# main.py
+```python
+# security/CSP.py
 resp.headers['Content-Security-Policy'] = "default-src *;" \
                                                "style-src *;" \
                                                "script-src 'unsafe-inline' 'unsafe-eval'" # allow unsafe inline, eval func allow any origin '*'

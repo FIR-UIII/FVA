@@ -1,9 +1,9 @@
-from flask import Flask, render_template, jsonify, request, redirect, make_response
+from flask import Flask, render_template, jsonify, request, redirect, make_response, send_file
 import os
 from dotenv import load_dotenv
-import time
 import psycopg2 as psql
 import base64
+from flask_sock import Sock
 from modules.require_authentication import require_authentication
 from modules.xss import xss_bp
 from modules.path_travers import path_travers_bp
@@ -19,8 +19,8 @@ from security.CSP import setup_csp
 from security.CORS import setup_cors
 from init_db import initiate_database
 
-load_dotenv()
-DB_HOST = os.getenv("DB_HOST") # db - docker; localhost - manual init
+
+DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASS = os.getenv("DB_PASS")
@@ -121,15 +121,13 @@ def handle_data():
     else:
         return jsonify({'error': 'Invalid file'})
 
-@FVA.route('/api/users', methods=['GET'])
+@FVA.route('/robots.txt', methods=['GET'])
 def get_users():
-    '''handles a GET request to the '/api/users' endpoint. exposes sensitive information
-    without authorization'''
-    return 'user password is qwerty'
+    '''handles a GET request. exposes sensitive information without authentication'''
+    return send_file('robots.txt', as_attachment=False)
 
 
 if __name__ == "__main__":
-    time.sleep(3) # this time is needed to wait for the full DB initialization
     clean()
     load_dotenv()
     initiate_database()
