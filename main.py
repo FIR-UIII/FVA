@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2 as psql
 import base64
+from flask_sock import Sock
 from modules.require_authentication import require_authentication
 from modules.xss import xss_bp
 from modules.path_travers import path_travers_bp

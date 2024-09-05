@@ -25,6 +25,7 @@ python3 main.py
 
 # Vulnerabilities 
 brief description for some of the vulnerabilities (but not all of them)
+Semgrep scan is: SemgrepSAST.txt
 
 ## XSS
 Exploit/PoC:
