@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2 as psql
 import base64
-from flask_sock import Sock
+#from flask_sock import Sock
 from modules.require_authentication import require_authentication
 from modules.xss import xss_bp
 from modules.path_travers import path_travers_bp
@@ -14,6 +14,7 @@ from modules.csrf import csrf_bp
 from modules.ssrf import ssrf_bp
 from modules.IDOR import idor_bp
 from modules.BOLA import bola_bp
+from modules.simple_web import simple_bp
 from modules.clean_directory import clean_upload_directory as clean
 from security.CSP import setup_csp
 from security.CORS import setup_cors
@@ -43,6 +44,7 @@ FVA.register_blueprint(csrf_bp)
 FVA.register_blueprint(ssrf_bp)
 FVA.register_blueprint(idor_bp)
 FVA.register_blueprint(bola_bp)
+FVA.register_blueprint(simple_bp)
 
 @FVA.route('/', methods=['GET', 'POST'])
 def index():
