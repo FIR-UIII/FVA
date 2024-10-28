@@ -132,4 +132,4 @@ if __name__ == "__main__":
     load_dotenv()
     initiate_database()
     # Debug mode True, no TLS => Security misconfiguration
-    FVA.run(host="0.0.0.0", port=8888, debug=True)
+    FVA.run(host="localhost", port=8888, debug=True)
