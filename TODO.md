@@ -14,4 +14,6 @@
 11. добавить функционал регистрации пользователей для idor и добавить описание уязвимости в README
 12. Pickle RCE Exploit https://github.com/CalfCrusher/Python-Pickle-RCE-Exploit
 13. Добавить DOM XSS
+    1. ~~Добавить простой DOM XSS с form и функцией document.write~~
+    2. ~~Добавить DOM XSS с location.search и document.write~~
 14. Добавить HTTP Smuggling

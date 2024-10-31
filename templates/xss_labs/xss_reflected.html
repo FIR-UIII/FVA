@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS Vulnerable Page</title>
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <link rel="icon" href="static/scripting.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container mt-5">
+        <form method="POST">
+            <input type="text" name="user_input" placeholder="Напиши сюда >..<"></p>
+            <input class="btn btn-primary" type="submit"></p>         
+        </form>
+        {% autoescape false %}
+            <pre class="alert alert-info"><b>Пользовательский ввод: </b>{{ user_input }}</pre>
+        {% endautoescape %} 
+        <a href="/xss" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>
