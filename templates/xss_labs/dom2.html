@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DOM XSS. Task #2</title>
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="icon" href="static/scripting.png" type="image/x-icon">
+    </head>
+<body>
+    <div class="container mt-5">
+        <h3>Welcome to DOM XSS. Task #2</h3>
+    </div>
+    <script>
+        var hidden = (new URLSearchParams(window.location.search)).get('testMe');
+        if(hidden){document.write('<p>'+hidden+'</p>');}
+    </script>
+    <div class="container mt-5">
+        <a href="/xss" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>

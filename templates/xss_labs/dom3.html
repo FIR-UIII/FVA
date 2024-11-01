@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DOM XSS. Task #3</title>
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="icon" href="static/scripting.png" type="image/x-icon">
+    </head>
+<body>
+    <div class="container mt-5">
+        <h3>Welcome to DOM XSS. Task #3</h3>
+    </div>
+    <div id='test'>
+    </div>
+    <script>
+        window.addEventListener('message', function(e) {
+            document.getElementById('test').innerHTML = e.data;
+        })
+    </script>
+    <div class="container mt-5">
+        <a href="/xss" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>

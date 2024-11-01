@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>XSS Vulnerable Page</title>
+    <title>XSS lab</title>
     <link rel="stylesheet" href="static/bootstrap.min.css">
     <link rel="icon" href="static/scripting.png" type="image/x-icon">
 </head>
 <body>
     <div class="container mt-5">
-        <form method="POST">
-            <input type="text" name="user_input" placeholder="Напиши сюда >..<"></p>
-            <input class="btn btn-primary" type="submit"></p>         
-        </form>
-        {% autoescape false %}
-            <pre class="alert alert-info"><b>Пользовательский ввод: </b>{{ user_input }}</pre>
-        {% endautoescape %} 
+        <h3>XSS labs</h3>
+        <a href="/xss/reflected" class="btn btn-primary">XXS reflected</a></p>
+        <a href="/xss/dom1" class="btn btn-primary">XXS DOM. Task 1</a></p>
+        <a href="/xss/dom2" class="btn btn-primary">XXS DOM. Task 2</a></p>
+        <a href="/xss/dom3" class="btn btn-primary">XXS DOM. Task 3</a></p>
+    </div>
+    <div class="container mt-5">
         <a href="/dashboard" class="btn btn-secondary">Назад</a></p>
     </div>
 </body>
