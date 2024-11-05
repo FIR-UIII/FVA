@@ -33,6 +33,5 @@ def xss_dom2():
     return render_template("/xss_labs/dom2.html",)
 
 @xss_bp.route('/xss/dom3', methods=['GET', 'POST'])
-# @require_authentication
 def xss_dom3():
     return render_template("/xss_labs/dom3.html",)

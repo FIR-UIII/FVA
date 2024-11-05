@@ -1,6 +1,6 @@
 # modules/require_authentication.py
 import functools
-from flask import request
+from flask import request, render_template
 
 def require_authentication(f):
     @functools.wraps(f)
@@ -9,5 +9,5 @@ def require_authentication(f):
         if cookie:
             return f(*args, **kwargs)
         else:
-            return "Please authenticate"
+            return render_template("auth_error.html")
     return decorated

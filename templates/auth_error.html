@@ -8,10 +8,16 @@
 <body>
     <div class="container mt-5">
         <h4>Authentification error</h4>
-        <p>Please provide valid credintials</p>
+        <p>Please provide valid credintials or authenticate</p>
+        <p>Your will be redirected in 3 seconds to the main page.</p>
     </div>
     <div class="container mt-5">
         <a href="/" class="btn btn-secondary">Назад</a></p>
     </div>
+    <script>
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 3000);
+    </script>
 </body>
 </html>
