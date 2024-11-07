@@ -6,6 +6,6 @@ def setup_cors(app):
             "origins": "*",  # allow any origin to request resources from site
             "methods": ["GET", "POST"],
             "headers": ["Content-Type", "Authorization"],
-            "credentials": False
+            "supports_credentials": True
         }
     })

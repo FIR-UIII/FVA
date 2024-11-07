@@ -17,4 +17,7 @@
     1. ~~Добавить простой DOM XSS с form и функцией document.write~~
     2. ~~Добавить DOM XSS с location.search и document.write~~
     3. ~~Добавить простой DOM XSS с webMessaging~~
+    4. Добавить задачу с DOM Clobbering
+    5. Добавить задачу с DOM-based JavaScript injection
 14. Добавить HTTP Smuggling
+15. Добавить уязвимость clickjacking
