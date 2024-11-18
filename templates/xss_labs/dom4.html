@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DOM XSS. Task #4</title>
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="icon" href="static/scripting.png" type="image/x-icon">
+    </head>
+<body>
+    <div class="container mt-5">
+        <h3>Welcome to DOM XSS. Task #4</h3>
+    </div>
+    <div class="container mt-5">
+    <form action="/xss/dom4" method="post">
+        <label for="user_data">Введите данные:</label><br>
+        <input type="text" id="user_data" name="user_data"><br></p>
+        <input type="submit" value="Go"></p>
+    </form>
+    {% autoescape false %}
+    {% if user_input %}
+        <div class="alert alert-info">Последний ввод пользователя: {{ user_input }}</div>
+    {% endif %}
+    {% endautoescape %}
+    <script>
+        // DOM Clobbering
+        var script = document.createElement('script');
+        let src = window.config.url || 'script.js';
+        s.src = src;
+        document.body.appendChild(s);
+    </script>
+    </div>
+    <div class="container mt-5">
+        <a href="/xss" class="btn btn-secondary">Назад</a></p>
+    </div>
+</body>
+</html>

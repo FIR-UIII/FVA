@@ -35,3 +35,11 @@ def xss_dom2():
 @xss_bp.route('/xss/dom3', methods=['GET', 'POST'])
 def xss_dom3():
     return render_template("/xss_labs/dom3.html",)
+
+@xss_bp.route('/xss/dom4', methods=['GET', 'POST'])
+def xss_dom4():
+    if request.method == 'POST':
+        data = request.form.get('user_data') # no sanitization or validation
+        return render_template("/xss_labs/dom4.html", user_input=data)
+    else:
+        return render_template("/xss_labs/dom4.html",)
